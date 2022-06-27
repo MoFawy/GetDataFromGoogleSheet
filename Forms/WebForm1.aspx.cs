@@ -20,13 +20,14 @@ namespace GetDataFromGoogleSheet.Forms
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/sheets.googleapis.com-dotnet-quickstart.json
         static readonly string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
-        static readonly string ApplicationName = "Google Sheets API .NET Quickstart"; 
+        static readonly string ApplicationName = "Application Name";
+
+        [Obsolete]
         protected void Page_Load(object sender, EventArgs e)
         {
             UserCredential credential;
 
-            using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
                 // The file token.json stores the user's access and refresh tokens, and is created
                 // automatically when the authorization flow completes for the first time.
@@ -53,10 +54,11 @@ namespace GetDataFromGoogleSheet.Forms
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
 
             // Import Data From a sample spreadsheet To Sqlserver :
-            ValueRange response = request.Execute(); IList<IList<Object>> values = response.Values;
+            ValueRange response = request.Execute();
+            IList<IList<Object>> values = response.Values;
             if (values != null && values.Count > 0)
             {
-                using (SqlConnection con = new SqlConnection("data source=MOHAMEDABDELBAS;initial catalog=DBspreadsheet;integrated security=True"))
+                using (SqlConnection con = new SqlConnection("Connection String"))
                 {
                     foreach (var row in values)
                     {
